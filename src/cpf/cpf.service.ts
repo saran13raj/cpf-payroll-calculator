@@ -15,12 +15,12 @@ import { CONTRIBUTION_ALLOCATION, CPF_LIMITS } from './cpf.constants';
 import { calculateAge } from 'src/utils';
 import { EmployeeService } from 'src/employee/employee.service';
 import { EmployeeResponseDto } from 'src/employee/employee.dto';
+import { CustomLoggerService } from 'src/logger/logger.service';
 
 @Injectable()
 export class CPFCalculatorService {
-  private readonly logger = new Logger(CPFCalculatorService.name);
-
   constructor(
+    private readonly logger: CustomLoggerService,
     @InjectModel(CPFRate.name)
     private cpfRateModel: Model<CPFRate>,
     private employeeService: EmployeeService,
@@ -38,6 +38,8 @@ export class CPFCalculatorService {
 
       const ageGroup = this.determineAgeGroup(age);
       const rates = await this.getCPFRates(employeeType, ageGroup);
+
+      this.logger.log('CPF Calculate cpf for employee:' + employeeId);
 
       // Calculate ordinary wages contribution
       const ordinaryWagesContribution =
@@ -60,6 +62,12 @@ export class CPFCalculatorService {
       const allocatedContribution = this.allocateToAccounts(
         totalContribution,
         age,
+      );
+      this.logger.log(
+        'CPF Calculate allocatedContribution for employee:' +
+          employeeId +
+          ' is ' +
+          JSON.stringify(allocatedContribution),
       );
 
       // Round all amounts to nearest cent as per CPF requirements

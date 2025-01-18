@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CPFModule } from './cpf/cpf.module';
 import { EmployeeModule } from './employee/employee.module';
+import { CustomLoggerService } from './logger/logger.service';
 
 const DATABASE_NAME = process.env.DATABASE_NAME ?? 'cpf-local';
 
@@ -28,6 +29,6 @@ const DATABASE_NAME = process.env.DATABASE_NAME ?? 'cpf-local';
     EmployeeModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, CustomLoggerService],
 })
 export class AppModule {}

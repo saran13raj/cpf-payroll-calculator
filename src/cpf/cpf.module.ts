@@ -6,6 +6,7 @@ import { CPFCalculatorService } from './cpf.service';
 import { CPFRate, CPFRateSchema } from './cpf.schema';
 import { CPFController } from './cpf.controller';
 import { EmployeeModule } from 'src/employee/employee.module';
+import { CustomLoggerService } from 'src/logger/logger.service';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { EmployeeModule } from 'src/employee/employee.module';
     CacheModule.register(),
     EmployeeModule,
   ],
-  providers: [CPFCalculatorService],
+  providers: [CPFCalculatorService, CustomLoggerService],
   controllers: [CPFController],
   exports: [CPFCalculatorService, MongooseModule],
 })

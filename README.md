@@ -1,26 +1,10 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+## System Architecture
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+![system-architecture](system-architecture.png)
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## DB SChema
+
+![db-schema](db-schema.png)
 
 ## Description
 
@@ -58,42 +42,204 @@ $ pnpm run test:e2e
 $ pnpm run test:cov
 ```
 
-## Deployment
+# CPF Payroll System Strategy Document
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+**Project: Automated CPF Calculator for Singapore SMEs**  
+**Date: January 2024**
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## 1. Executive Summary
 
-```bash
-$ pnpm install -g mau
-$ mau deploy
-```
+This document outlines the strategy for implementing an automated CPF calculation system for Singapore SMEs. The system will handle CPF contributions calculation, integrate with CPF Board's EZPAY, and manage payroll processing while ensuring compliance with Singapore's CPF regulations.
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## 2. System Architecture
 
-## Resources
+### 2.1 Technical Stack
 
-Check out a few resources that may come in handy when working with NestJS:
+- **Backend**: NestJS with TypeScript
+- **Database**: MongoDB
+- **Caching**: Redis
+- **Testing**: Jest
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### 2.2 Core Components
 
-## Support
+1. **Authentication Module**
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+   - JWT-based authentication
+   - Role-based access control
+   - Integration with company SSO (future phase)
 
-## Stay in touch
+2. **Employee Management Module**
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+   - Employee profile management
+   - Employment history tracking
+   - Document management
 
-## License
+3. **CPF Calculation Module**
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+   - Real-time CPF calculation
+   - Rate management system
+   - Historical calculation tracking
+
+4. **Payroll Processing Module**
+   - Monthly payroll processing
+   - Additional wage handling
+   - CPF contribution submission
+   - GIRO integration
+
+### 2.3 Data Model
+
+- **Employees Collection**: Personal and employment details
+- **CPF Rates Collection**: Contribution rates and rules
+- **Payroll Collection**: Monthly payroll records
+- **Transactions Collection**: CPF submission history
+
+## 3. Implementation Strategy
+
+### 3.1 Phase 1: Core Foundation (1.5 weeks)
+
+- Setup development environment
+- Implement basic architecture
+- Create employee and CPF rate management
+- Basic API endpoints
+- Unit tests setup
+
+### 3.2 Phase 2: CPF Implementation (1.5 weeks)
+
+- CPF calculation engine
+- Rate management system
+- Validation rules
+- Integration tests
+- Documentation
+
+### 3.3 Phase 3: Payroll Processing (2 weeks)
+
+- Monthly payroll processing
+- Additional wage handling
+- Bulk processing capability
+- API documentation
+- Performance testing
+
+### 3.4 Phase 4: Integration & Deployment (1-2 weeks)
+
+- EZPAY integration
+- Security hardening
+- Production deployment
+- User acceptance testing
+- Training documentation
+
+## 4. Key Features and Functionalities
+
+### 4.1 CPF Calculations
+
+- Accurate calculation based on:
+  - Employee type (Citizen/PR)
+  - Age group
+  - Wage type (Ordinary/Additional)
+  - YTD contributions
+  - Current CPF rates
+
+### 4.2 Data Management
+
+- Secure storage of sensitive data
+- Audit logging
+- Data encryption at rest
+- Regular backups
+
+### 4.3 Integration Capabilities
+
+- CPF EZPAY submission format
+- Bank GIRO integration
+- Export capabilities
+- API for third-party integration
+
+## 5. Testing Strategy
+
+### 5.1 Unit Testing
+
+- Component-level testing
+- Service layer coverage
+- Calculation accuracy validation
+
+### 5.2 Integration Testing
+
+- API endpoint testing
+- Database operations
+- Cache functionality
+
+### 5.3 Performance Testing
+
+- Load testing for bulk operations
+- Response time benchmarking
+- Concurrent user handling
+
+## 6. Security Measures
+
+- Data encryption
+- Role-based access control
+- Audit logging
+- Secure API authentication
+- Regular security audits
+
+## 7. Maintenance and Support
+
+### 7.1 Regular Updates
+
+- CPF rate updates
+- Policy changes
+- Security patches
+- Performance optimization
+
+### 7.2 Monitoring
+
+- System health monitoring
+- Error tracking
+- Performance metrics
+- Usage analytics
+
+## 8. Success Criteria
+
+1. 100% accuracy in CPF calculations
+2. Response time < 500ms for single calculations
+3. Ability to handle 1000+ employees
+4. Successful EZPAY integration
+5. Zero data loss or corruption
+6. 99.9% system availability
+
+## 9. Assumptions and Risks
+
+### 9.1 Assumptions
+
+- Stable CPF calculation rules
+- Available EZPAY API documentation
+- Clear business requirements
+- Access to test data
+
+### 9.2 Risks
+
+- CPF policy changes
+- Integration challenges
+- Performance under load
+- Data migration complexities
+
+## 10. Timeline and Milestones
+
+Total Duration: 7 weeks
+
+1. **Week 1-2**: Core Foundation
+
+   - Basic setup and architecture
+   - Database design and implementation
+
+2. **Week 3-4**: CPF Implementation
+
+   - Calculation engine
+   - Rate management
+
+3. **Week 5-7**: Payroll Processing
+
+   - Full payroll functionality
+   - Integration features
+
+4. **Week 7**: Deployment
+   - Testing and validation
+   - Production deployment
