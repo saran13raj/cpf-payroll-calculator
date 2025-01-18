@@ -7,47 +7,14 @@ import {
   Query,
   ValidationPipe,
 } from '@nestjs/common';
-import { IsNumber, IsString, IsEnum, IsOptional, Min } from 'class-validator';
 
 import { CPFCalculatorService } from './cpf.service';
-import { AgeGroup, EmployeeType } from './cpf.types';
-
-class CalculateCPFDto {
-  @IsString()
-  employeeId: string;
-
-  @IsNumber()
-  @Min(0)
-  basicSalary: number;
-
-  @IsNumber()
-  @Min(0)
-  additionalWages: number;
-
-  @IsNumber()
-  @Min(0)
-  totalOrdinaryWagesYTD: number;
-
-  @IsNumber()
-  @Min(0)
-  totalAdditionalWagesYTD: number;
-
-  @IsEnum(EmployeeType)
-  employeeType: EmployeeType;
-
-  @IsNumber()
-  @Min(16)
-  age: number;
-}
-
-class BulkCPFCalculationDto {
-  @IsString()
-  payrollPeriod: string; // Format: YYYY-MM
-
-  @IsOptional()
-  @IsString()
-  departmentId?: string;
-}
+import {
+  AgeGroup,
+  BulkCPFCalculationDto,
+  CalculateCPFDto,
+  EmployeeType,
+} from './cpf.types';
 
 @Controller('cpf')
 export class CPFController {
@@ -74,12 +41,11 @@ export class CPFController {
   async bulkCalculateCPF(
     @Body(ValidationPipe) bulkCPFDto: BulkCPFCalculationDto,
   ) {
-    // Implementation for bulk calculation
-    // This would typically fetch employee data and calculate CPF for multiple employees
-    return {
-      message: 'Bulk calculation initiated',
-      period: bulkCPFDto.payrollPeriod,
-    };
+    return this.cpfCalculatorService.bulkCalculateCPF(bulkCPFDto);
+    // return {
+    //   message: 'Bulk calculation initiated',
+    //   period: bulkCPFDto.payrollPeriod,
+    // };
   }
 
   @Get('rates')

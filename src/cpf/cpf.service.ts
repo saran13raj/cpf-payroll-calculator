@@ -8,9 +8,13 @@ import {
   EmployeeType,
   AgeGroup,
   PayrollDetails,
+  BulkCPFCalculationDto,
   //   WageType,
 } from './cpf.types';
 import { CONTRIBUTION_ALLOCATION, CPF_LIMITS } from './cpf.constants';
+import { calculateAge } from 'src/utils';
+import { EmployeeService } from 'src/employee/employee.service';
+import { EmployeeResponseDto } from 'src/employee/employee.dto';
 
 @Injectable()
 export class CPFCalculatorService {
@@ -19,6 +23,7 @@ export class CPFCalculatorService {
   constructor(
     @InjectModel(CPFRate.name)
     private cpfRateModel: Model<CPFRate>,
+    private employeeService: EmployeeService,
   ) {}
 
   async calculatePayrollCPF(
@@ -50,12 +55,6 @@ export class CPFCalculatorService {
         ordinaryWagesContribution,
         additionalWagesContribution,
       );
-      console.log(
-        'c:::',
-        ordinaryWagesContribution,
-        additionalWagesContribution,
-        totalContribution,
-      );
 
       // Allocate to different accounts based on age
       const allocatedContribution = this.allocateToAccounts(
@@ -69,6 +68,51 @@ export class CPFCalculatorService {
       this.logger.error(`CPF calculation failed: ${error.message}`);
       throw new HttpException(
         `CPF calculation failed: ${error.message}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  async bulkCalculateCPF(bulkCPFDto: BulkCPFCalculationDto): Promise<any> {
+    const { payrollPeriod, departmentId } = bulkCPFDto;
+
+    try {
+      // TODO - fix type
+      const employees = (await this.employeeService.getAllEmployeesByDepartment(
+        departmentId,
+      )) as unknown as EmployeeResponseDto[];
+
+      const results = await Promise.all(
+        employees.map(async (employee) => {
+          const age = calculateAge(employee.dateOfBirth);
+          const payrollDetails: PayrollDetails = {
+            basicSalary: employee.basicSalary,
+            additionalWages: 2000,
+            totalOrdinaryWagesYTD: 30000,
+            totalAdditionalWagesYTD: 5000,
+          };
+
+          return {
+            _id: employee._id,
+            name: employee.name,
+            cpfContribution: await this.calculatePayrollCPF(
+              '',
+              payrollDetails,
+              employee.employeeType as EmployeeType,
+              age,
+            ),
+          };
+        }),
+      );
+
+      return {
+        message: 'Bulk calculation completed successfully',
+        period: payrollPeriod,
+        results,
+      };
+    } catch (error) {
+      throw new HttpException(
+        `Bulk CPF calculation failed: ${error.message}`,
         HttpStatus.BAD_REQUEST,
       );
     }

@@ -11,4 +11,11 @@ export class EmployeeService {
     @InjectModel(Employee.name)
     private employeeModel: Model<Employee>,
   ) {}
+
+  async getAllEmployeesByDepartment(department: string): Promise<Employee[]> {
+    const employees = await this.employeeModel.find({
+      department: department,
+    });
+    return employees;
+  }
 }

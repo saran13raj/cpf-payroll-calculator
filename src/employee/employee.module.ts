@@ -13,6 +13,6 @@ import { Employee, EmployeeSchema } from './employee.schema';
     CacheModule.register(),
   ],
   providers: [EmployeeService],
-  exports: [EmployeeService],
+  exports: [EmployeeService, MongooseModule],
 })
 export class EmployeeModule {}

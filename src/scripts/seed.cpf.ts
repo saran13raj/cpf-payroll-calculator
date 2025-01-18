@@ -33,6 +33,15 @@ const CPF_RATES_DATA = [
     wageCeiling: 7400,
   },
   {
+    ageGroup: AgeGroup.FROM_60_TO_65,
+    employeeType: EmployeeType.PR_FIRST_YEAR,
+    employeeRate: 5,
+    employerRate: 3.5,
+    effectiveDate: new Date('2024-01-01'),
+    wageFloor: 50,
+    wageCeiling: 7400,
+  },
+  {
     ageGroup: AgeGroup.ABOVE_65,
     employeeType: EmployeeType.CITIZEN,
     employeeRate: 7.5,
@@ -41,11 +50,19 @@ const CPF_RATES_DATA = [
     wageFloor: 50,
     wageCeiling: 7400,
   },
+  {
+    ageGroup: AgeGroup.ABOVE_65,
+    employeeType: EmployeeType.PR_FIRST_YEAR,
+    employeeRate: 5,
+    employerRate: 3.5,
+    effectiveDate: new Date('2024-01-01'),
+    wageFloor: 50,
+    wageCeiling: 7400,
+  },
 ];
 
 const EMPLOYEE_DATA = [
   {
-    _id: '1001',
     name: 'John Doe',
     employeeType: EmployeeType.CITIZEN,
     dateOfBirth: new Date('1990-01-15'),
@@ -54,13 +71,20 @@ const EMPLOYEE_DATA = [
     joinDate: new Date('2023-01-01'),
   },
   {
-    _id: '1002',
     name: 'Jane Smith',
     employeeType: EmployeeType.PR_FIRST_YEAR,
     dateOfBirth: new Date('1985-06-20'),
     basicSalary: 7000,
     department: 'Finance',
     joinDate: new Date('2023-03-01'),
+  },
+  {
+    name: 'Remo Rety',
+    employeeType: EmployeeType.CITIZEN,
+    dateOfBirth: new Date('1990-10-25'),
+    basicSalary: 6000,
+    department: 'Engineering',
+    joinDate: new Date('2023-01-09'),
   },
 ];
 

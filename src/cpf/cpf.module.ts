@@ -5,11 +5,13 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { CPFCalculatorService } from './cpf.service';
 import { CPFRate, CPFRateSchema } from './cpf.schema';
 import { CPFController } from './cpf.controller';
+import { EmployeeModule } from 'src/employee/employee.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: CPFRate.name, schema: CPFRateSchema }]),
     CacheModule.register(),
+    EmployeeModule,
   ],
   providers: [CPFCalculatorService],
   controllers: [CPFController],
